@@ -1,0 +1,40 @@
+<div style="text-align: center" *ngIf="loading">
+  <div class="spinner-border mt-5 text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+
+<div *ngIf="!loading" class="py-2 mb-3">
+  <app-choose-date
+    *ngIf="currentStep === 0"
+    [days]="days"
+    (setDay)="setDay($event)"
+    [selectedDay]="selectedDay"
+  ></app-choose-date>
+
+  <app-choose-time
+    *ngIf="currentStep === 1"
+    [slots]="selectedDay"
+    (setTime)="setTime($event)"
+    [selectedTime]="selectedTime"
+  ></app-choose-time>
+
+  <app-checkout *ngIf="currentStep === 2" [slot]="selectedTime" [place]="place" (next)="next()"></app-checkout>
+
+  <app-confirmation *ngIf="currentStep === 3"></app-confirmation>
+  <div class="row container div__buttons mb-3" style="margin: auto; right: 0">
+    <div class="col-12 text-right">
+      <button class="btn btn-dark mr-2" (click)="prev()" *ngIf="currentStep < 3">
+        <fa-icon icon="angle-left"></fa-icon> Indietro
+      </button>
+      <button
+        class="btn btn-primary mr-2 btn-yellow"
+        (click)="next()"
+        [disabled]="currentStep === MAX_STEPS || !canGoNext()"
+        *ngIf="currentStep < 2"
+      >
+        Prossimo <fa-icon icon="angle-right"></fa-icon>
+      </button>
+    </div>
+  </div>
+</div>

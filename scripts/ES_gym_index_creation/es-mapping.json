@@ -1,0 +1,78 @@
+{
+  "mappings": {
+    "properties": {
+      "placeId": {
+        "type": "text"
+      },
+      "building": {
+        "type": "text"
+      },
+      "city": {
+        "type": "text"
+      },
+      "address": {
+        "type": "text"
+      },
+      "province": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "phone": {
+        "type": "keyword"
+      },
+      "location": {
+        "type": "geo_point"
+      },
+      "category": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "name": {
+        "type": "text"
+      },
+      "website": {
+        "type": "text"
+      },
+      "istatCode": {
+        "type": "keyword"
+      },
+      "street": {
+        "type": "text"
+      },
+      "streetNumber": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "representative": {
+        "type": "text"
+      },
+      "cpu": {
+        "type": "text"
+      },
+      "openingTimeDesc": {
+        "type": "text"
+      },
+      "allowBookingByPhone": {
+        "type": "boolean"
+      },
+      "searchable": {
+        "type": "boolean"
+      },
+      "bookable": {
+        "type": "boolean"
+      }
+    }
+  }
+}

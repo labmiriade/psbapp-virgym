@@ -1,0 +1,84 @@
+<div style="text-align: center" *ngIf="loading">
+  <div class="spinner-border mt-5 text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+<div class="recipient__dv-my-ticket-bg" [ngClass]="{ 'h-100': deleted === true || !slot?.secretCode }" *ngIf="!loading">
+  <div *ngIf="deleted === false">
+    <div class="container" *ngIf="slot?.secretCode">
+      <div>
+        <div class="mt-3 recipient__dv-myticket-toolbar-row text-center">
+          <p class="recipient__dv-myticket-sub" *ngIf="!slot">Nessun biglietto presente</p>
+          <p class="recipient__dv-myticket-sub" *ngIf="slot?.secretCode">Il tuo biglietto</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!deleted && slot?.secretCode">
+    <div class="recipient__dv-my-ticket-card card">
+      <div class="m-2">
+        <h1 class="m-0 recipient__dv-myticket-brand">{{ slot?.place?.name }}</h1>
+        <p class="m-0 recipient__dv-myticket-city">Data: {{ slot?.startDatetime | date: 'dd MMMM HH:mm' }}</p>
+      </div>
+      <div class="m-2">
+        <h1 class="recipient__dv-myticket-code">Codice: {{ slot?.secretCode }}</h1>
+      </div>
+    </div>
+
+    <div class="container mt-3">
+      <div class="row">
+        <div class="col-md-11 text-center" style="margin: auto">
+          <h3 class="recipient__dv-myticket-quest">Hai cambiato idea?</h3>
+          <h2 class="recipient__dv-myticket-cancel">
+            <a class="recipient__dv-myticket-cancel" (click)="openModal()"> Cancella la tua prenotazione </a>
+          </h2>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Se cancello il ticket -->
+  <div class="recipient__dv-confirmation-bg" *ngIf="deleted == true">
+    <div class="h-100">
+      <div class="container mt-3 h-100">
+        <div class="row h-100">
+          <div class="col-md-11 text-center recipient__dv-my-auto" style="margin: auto">
+            <div class="card-block">
+              <h1 class="m-0 recipient__dv-confirmation-txt">
+                La tua prenotazione n°{{ slot?.secretCode }}<br />
+                è stata cancellata
+              </h1>
+              <img src="/assets/images/cestino_icon.png" width="106" />
+            </div>
+          </div>
+
+          <h2 class="recipient__dv-go-home text-center mb-5">
+            <a class="recipient__dv-go-home" [routerLink]="['/']"> Torna alla ricerca </a>
+          </h2>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Se il ticket non esiste -->
+  <div class="recipient__dv-confirmation-bg" *ngIf="!slot?.secretCode">
+    <div class="h-100">
+      <div class="container mt-3 h-100">
+        <div class="row h-100">
+          <div class="col-md-11 text-center recipient__dv-my-auto" style="margin: auto">
+            <div class="card-block">
+              <h1 class="m-0 recipient__dv-confirmation-txt">
+                La prenotazione cercata <br />
+                non esiste
+              </h1>
+              <h3 class="recipient__dv-confirmation-thx">Controlla la tua email</h3>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <h2 class="recipient__dv-go-home text-center mb-5">
+            <a class="recipient__dv-go-home" [routerLink]="['/']"> Torna alla ricerca </a>
+          </h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

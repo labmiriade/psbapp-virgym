@@ -1,0 +1,12 @@
+*.js
+!jest.config.js
+*.d.ts
+node_modules
+
+# Parcel build directories
+.cache
+.build
+
+# Test Reports
+test-reports/**
+coverage/**

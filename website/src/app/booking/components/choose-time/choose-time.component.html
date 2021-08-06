@@ -1,0 +1,46 @@
+<div class="mt-3 container text-center">
+  <span class="booking-choose-time__dv-day">Scegli la fascia oraria</span>
+</div>
+<div class="row container" style="margin: auto">
+  <div
+    *ngFor="let slot of slotsData; let last = last"
+    [ngClass]="{ 'booking-choose-time__dv-card-disabled': slots.length === 0 }"
+    class="w-100 col-6 col-md-4 booking-choose-time__dv-outline-none card"
+    (click)="selectSlot(slot)"
+    [ngStyle]="{ 'margin-bottom': last ? '4rem' : '0rem' }"
+  >
+    <div
+      [class.booking-choose-time__active]="slot.slot === selectedTime"
+      class="ml-3 mr-3 mt-2 mb-2 booking-choose-time__dv-custom-list-item mat-elevation-z0 d-flex card"
+    >
+      <div>
+        <h2
+          [ngClass]="{ 'dv-no-available': slot.slot.availablePlaces === 0 }"
+          class="mt-1 booking-choose-time__dv-time"
+          *ngIf="slot.slot.startDatetime && slot.endDatetime"
+        >
+          {{ slot.slot.startDatetime | date: 'HH:mm' }} - {{ slot.endDatetime | date: 'HH:mm' }}
+        </h2>
+        <p
+          class="mt-1 mb-1"
+          [ngClass]="{
+            'booking-choose-time__dv-no-available': slot.slot.availablePlaces === 0,
+            'booking-choose-time__dv-few-available': slot.slot.availablePlaces > 0 && slot.slot.availablePlaces <= 5
+          }"
+          *ngIf="slot.slot.availablePlaces !== undefined"
+        >
+          {{ slot.slot.availablePlaces }} posti disponibili
+        </p>
+      </div>
+
+      <span class="booking-choose-time__spacer"></span>
+      <span>
+        <fa-icon
+          icon="check-circle"
+          class="booking-choose-time__icon"
+          [class.booking-choose-time__icon-active]="slot.slot === selectedTime"
+        ></fa-icon>
+      </span>
+    </div>
+  </div>
+</div>

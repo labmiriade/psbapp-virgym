@@ -1,0 +1,33 @@
+<div class="mt-3 container text-center">
+  <span class="booking-choose-date__dv-day-bigger" *ngIf="daysLength">Scegli una data</span>
+  <span class="booking-choose-date__dv-day-bigger" *ngIf="!daysLength">Slot non disponibili</span>
+</div>
+
+<div class="row container" style="margin: auto">
+  <div
+    *ngFor="let day of days | keyvalue; let last = last"
+    class="w-100 col-6 col-md-4 p-0 booking-choose-date__dv-outline-none"
+    (click)="selectDay(day.value)"
+    [ngClass]="{ 'booking-choose-date__dv-last-item': last }"
+  >
+    <div
+      class="m-3 booking-choose-date__dv-custom-list-item mat-elevation-z0 d-flex card"
+      [ngClass]="{ 'booking-choose-date__dv-card-disabled': day.value.length === 0 }"
+      [class.booking-choose-date__active]="day.value === selectedDay"
+    >
+      <div>
+        <p class="mt-1 booking-choose-date__dv-day">{{ day.key | date: 'EEEE' }}</p>
+        <h2 class="mt-1 mb-1 booking-choose-date__dv-date text-capitalize">
+          {{ day.key | date: 'dd MMMM' }}
+        </h2>
+      </div>
+      <span>
+        <fa-icon
+          icon="check-circle"
+          class="booking-choose-date__icon"
+          [class.booking-choose-date__icon-active]="day.value === selectedDay"
+        ></fa-icon>
+      </span>
+    </div>
+  </div>
+</div>

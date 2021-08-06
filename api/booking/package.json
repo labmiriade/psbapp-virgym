@@ -1,0 +1,44 @@
+{
+  "name": "virgym-booking",
+  "version": "1.0.0",
+  "description": "VirGym NodeJS Booking API",
+  "repository": "https://bitbucket.org/miriadesrl/psbapp-virgym",
+  "author": "Miriade",
+  "dependencies": {
+    "moment-timezone": "^0.5.28"
+  },
+  "scripts": {
+    "lint": "prettier --check .",
+    "format": "prettier --write .",
+    "test": "jest",
+    "build": "node_modules/typescript/bin/tsc && npm run post-build",
+    "watch": "node_modules/typescript/bin/tsc -w --preserveWatchOutput",
+    "generate-schema": "npx openapi-typescript ../design/openapi.yml --output src/model/schema.ts --prettier-config .prettierrc.yml",
+    "package": "rm -rf dist && rm -f code.zip && npm run build && cp package.* dist/ && cd dist && npm i --only=prod && zip -r ../code.zip .",
+    "post-build": "cp package.json dist/"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.51",
+    "@types/chai": "^4.2.11",
+    "@types/jest": "^25.2.1",
+    "@types/node": "^13.13.4",
+    "aws-sdk": "^2.669.0",
+    "chai": "^4.2.0",
+    "jest": "^26.0.0",
+    "jest-junit": "^10.0.0",
+    "prettier": "^2.2.1",
+    "ts-jest": "^25.4.0",
+    "ts-node": "^8.10.1",
+    "typescript": "^3.8.3"
+  },
+  "jest-junit": {
+    "suiteName": "jest tests",
+    "outputDirectory": "./test-reports",
+    "outputName": "junit.xml",
+    "uniqueOutputName": "false",
+    "classNameTemplate": "{classname}-{title}",
+    "titleTemplate": "{classname}-{title}",
+    "ancestorSeparator": " › ",
+    "usePathForSuiteName": "true"
+  }
+}

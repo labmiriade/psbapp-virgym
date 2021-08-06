@@ -1,0 +1,368 @@
+openapi: '3.0.3'
+info:
+  title: 'PSBAPP VirGym API'
+  version: '2021-05-27'
+
+paths:
+  /p/{placeId}:
+    parameters:
+      - in: path
+        schema:
+          type: string
+        name: placeId
+        required: true
+    get:
+      tags: [End User]
+      description: Ottieni informazioni su un luogo
+      responses:
+        200:
+          description: Informazioni sul luogo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaceInfo'
+        444:
+          description: Luogo non esistente
+
+  /p/{placeId}/slots:
+    parameters:
+      - in: path
+        schema:
+          type: string
+        name: placeId
+        required: true
+    get:
+      parameters:
+        - in: query
+          schema:
+            type: string
+            format: date
+          name: from
+          required: true
+        - in: query
+          schema:
+            type: string
+            format: date
+          name: to
+          required: false
+      tags: [End User]
+      description: >-
+        Ottieni la lista degli slot selezionabili, a partire dalla data indicata nel query parameter `from`,
+        fino alla data specificata nel query parameter (opzionale) `to`
+      responses:
+        200:
+          description: Lista delle prenotazioni disponibili
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlotsResponse'
+
+  /p/{placeId}/slots/{slotId}/bookings:
+    parameters:
+      - in: path
+        schema:
+          type: string
+        name: placeId
+        required: true
+      - in: path
+        schema:
+          type: string
+        name: slotId
+        required: true
+    post:
+      tags: [End User]
+      security:
+        - captchaKey: []
+      description: >-
+        Crea una nuova prenotazione per il luogo indicato, nello slot indicato
+      requestBody:
+        description: La richiesta di prenotazione
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingRequest'
+      responses:
+        201:
+          description: Creata prenotazione
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingResponse'
+
+  /b/{bookingId}:
+    parameters:
+      - in: path
+        schema:
+          type: string
+        name: bookingId
+        required: true
+    get:
+      tags: [End User]
+      description: >-
+        Ottieni le informazioni su una specifica prenotazione a partire dal suo ID
+      responses:
+        200:
+          description: Le informazioni sulla prenotazione
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingInfo'
+    delete:
+      tags: [End User]
+      security:
+        - captchaKey: []
+      description: >-
+        Elimina la prenotazione con l'ID indicato
+      responses:
+        204:
+          description: Annulla la prenotazione
+
+  ##### SEARCH API
+  /search/p:
+    get:
+      tags: [End User, Search]
+      parameters:
+        - name: q
+          in: query
+          description: >-
+            The text for full text search on all fields
+          required: false
+          schema:
+            type: string
+        - name: near
+          in: query
+          description: >-
+            Latitude and longitude for the search
+          required: false
+          schema:
+            type: string
+            example: 45.1234,11.3749
+            pattern: '\d{1,2}(.\d*)\,\d{1,2}(.\d*)'
+      summary: Search places
+      description: >-
+        At least one of the 'q' or the 'near' parameters is required
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaceList'
+
+components:
+  securitySchemes:
+    captchaKey:
+      type: apiKey
+      in: header
+      name: x-captcha
+  schemas:
+    PlaceList:
+      type: object
+      properties:
+        places:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlaceInfo'
+    PlaceInfo:
+      type: object
+      properties:
+        placeId:
+          type: string
+          example: clzd-th
+        building:
+          type: string
+          example: Biblioteca Civica
+        city:
+          type: string
+          example: Schio
+        street:
+          type: string
+          example: via Tito Livio
+        streetNumber:
+          type: string
+          example: '22'
+        province:
+          type: string
+          example: VI
+        phone:
+          type: string
+          example: 0445 555555
+        lat:
+          type: string
+          example: 45.50593824
+        lon:
+          type: string
+          example: 12.293843284
+        category:
+          type: string
+          example: Palestra Digitale
+        name:
+          type: string
+          example: Palestra digitale di Schio
+        website:
+          type: string
+          format: uri
+          example: 'https://avatarlab.it/119-2/'
+        istatCode:
+          type: string
+          example: '24100'
+        representative:
+          type: string
+          example: 'person@domain.com'
+        cpu:
+          type: string
+        openingTimeDesc:
+          type: string
+          description: >-
+            La descrizione testuale degli orari di apertura
+          example: 'dal lunedì al venerdì dalle 9 alle 18'
+        allowBookingByPhone:
+          type: boolean
+          description: >-
+            Consentire o meno la registrazione tramite SMS
+          default: false
+        searchable:
+          type: boolean
+          description: >-
+            Consentire o meno la ricerca della palestra
+          default: true
+        bookable:
+          type: boolean
+          description: >-
+            Consentire o meno la prenotazione presso questa palestra
+          default: true
+    Slot:
+      type: object
+      required:
+        - slotId
+        - startDatetime
+        - duration
+      properties:
+        slotId:
+          type: string
+          example: '2020-06-10T12:00:00Z~60'
+          description: >-
+            L'id dello specifico slot.
+            È univoco solamente per un determinato Place.
+        startDatetime:
+          type: string
+          format: date-time
+          example: '2020-06-10T12:00:00Z'
+          description: >-
+            Orario di inizio dello slot in UTC seguendo ISO8601
+        duration:
+          type: integer
+          example: 60
+          description: >-
+            Numero di minuti di ampiezza dello slot.
+        allowedPeople:
+          type: integer
+          minimum: 0
+          example: 40
+          description: Numero di posti allocabili in quello slot.
+        availablePlaces:
+          type: integer
+          minimum: 0
+          example: 13
+          description: Numero di posti liberi in questo slot.
+        allowBookingFrom:
+          type: string
+          format: date-time
+          description: Data e ora a partire dalla quale è possibile prenotare un posto nello slot selezionato.
+        allowBookingUntil:
+          type: string
+          format: date-time
+          description: Data e ora fino alla quale è possibile prenotare un posto nello slot selezionato.
+    SlotsResponse:
+      type: object
+      properties:
+        slots:
+          type: array
+          items:
+            $ref: '#/components/schemas/Slot'
+    BookingRequest:
+      type: object
+      properties:
+        people:
+          type: integer
+          minimum: 1
+          maximum: 3
+          example: 1
+        phone:
+          type: string
+          description: >-
+            A valid phone number, no spaces, with international prefix.
+          example: '+393341234567'
+        email:
+          type: string
+          description: >-
+            A valid email to whom the booking will be sent.
+          format: idn-email
+          example: 'user@example.com'
+      oneOf:
+        - required:
+            - phone
+        - required:
+            - email
+      required:
+        - people
+    BookingResponse:
+      type: object
+      properties:
+        bookedPeople:
+          type: integer
+          minimum: 1
+          maximum: 3
+    BookingInfo:
+      type: object
+      required:
+        - placeId
+        - bookingId
+      properties:
+        placeId:
+          type: string
+          example: clzd-th
+        bookingId:
+          type: string
+          example: dj12DW2sjeh3
+        startDatetime:
+          type: string
+          format: date-time
+          example: '2020-06-10T12:00:00Z'
+          description: >-
+            Orario di inizio dello slot in UTC seguendo ISO8601
+        duration:
+          type: integer
+          exclusiveMinimum: true
+          minimum: 0
+          example: 60
+          description: Ampiezza dello slot in minuti
+        bookedPeople:
+          type: integer
+          exclusiveMinimum: true
+          minimum: 0
+          maximum: 3
+          example: 1
+          description: Numero di persone consentite
+        secretCode:
+          type: string
+          minLength: 6
+          maxLength: 6
+          example: 283850
+          description: >-
+            Un codice casuale univoco per identificare l'utente se il
+            booking ID non è leggibile con QR-scanner
+        entered:
+          type: boolean
+          description: Whether the booking has been used or not
+        place:
+          allOf:
+            - $ref: '#/components/schemas/PlaceInfo'
+          description: >-
+            Ancora in fase di valutazione se aggiungere tutto qui o lasciare che sia il frontend a fare due chiamate
+
+tags:
+  - name: End User
+    description: Chiamate utilizzate dall'end user, non sono autenticate.
+  - name: Search
+    description: Chiamate per cercare i luoghi

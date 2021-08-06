@@ -1,0 +1,106 @@
+@import 'src/variables';
+
+.recipient__dv-myticket-title {
+  font-size: 1.9rem;
+  font-weight: 600;
+}
+
+.recipient__dv-myticket-sub {
+  font-weight: 400;
+  font-size: 1.2rem;
+  padding-right: 0.9rem;
+}
+
+.recipient__dv-my-ticket-card {
+  margin-left: 7.5rem !important;
+  margin-right: 7.5rem !important;
+  margin-top: 7.5rem;
+  margin-bottom: 0rem;
+  border-radius: 1.6rem 0rem 1.6rem 0rem;
+}
+
+.recipient__dv-myticket-toolbar-row {
+  display: block;
+  position: relative;
+  top: 1.6rem;
+}
+
+.recipient__dv-myticket-brand {
+  font-weight: 30rem;
+  font-size: 1.6rem;
+}
+
+.recipient__dv-myticket-city {
+  font-weight: 30rem;
+  font-size: 1rem;
+}
+
+.recipient__dv-myticket-code {
+  font-weight: 24rem;
+  font-size: 1.4rem;
+}
+.recipient__dv-myticket-date {
+  font-weight: 18rem;
+  font-size: 1rem;
+}
+
+@include media-breakpoint-down(md) {
+  .recipient__dv-my-ticket-card {
+    margin-left: 1.9rem !important;
+    margin-right: 1.9rem !important;
+    margin-top: 7.5rem;
+    margin-bottom: 0rem;
+  }
+}
+
+.recipient__dv-qr-code {
+  text-align: center;
+}
+
+.recipient__dv-myticket-quest {
+  font-weight: 300;
+  font-size: 1.3rem;
+}
+
+.recipient__dv-myticket-cancel {
+  font-weight: 500;
+  font-size: 1.4rem;
+  cursor: pointer;
+  z-index: 999;
+}
+
+// Da cambiare i nomi delle classi
+.recipient__dv-confirmation-bg {
+  height: 100%;
+  overflow: hidden;
+}
+
+.recipient__dv-confirmation-txt {
+  font-weight: 400;
+  font-size: 2rem;
+  line-height: 2.5rem;
+  margin-bottom: 5rem !important;
+}
+
+.recipient__dv-confirmation-thx {
+  margin-top: 5rem;
+  font-weight: 400;
+  font-size: 1.3rem;
+}
+
+.recipient__dv-confirmation-logo {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.recipient__dv-myauto {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.recipient__dv-go-home {
+  font-weight: 500;
+  font-size: 1.4rem;
+  cursor: pointer;
+  margin: auto;
+}
