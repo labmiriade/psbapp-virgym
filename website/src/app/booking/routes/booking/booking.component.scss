@@ -1,0 +1,10 @@
+@import 'src/variables';
+
+@include media-breakpoint-down(md) {
+  .div__buttons {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    z-index: 1000;
+    bottom: 1rem;
+  }
+}

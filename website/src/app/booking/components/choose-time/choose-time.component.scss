@@ -1,0 +1,72 @@
+@import 'src/variables';
+
+.booking-choose-time__active {
+  background-color: #ffffff;
+  position: relative;
+  border: 0.125rem solid $primary !important;
+}
+.booking-choose-time__icon {
+  display: none;
+  color: $primary !important;
+  font-size: 1.563rem;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  right: 0.938rem;
+}
+
+.booking-choose-time__icon-active {
+  display: inline-flex;
+}
+
+.booking-choose-time__dv-custom-list-item {
+  cursor: pointer;
+  border-radius: 1.563rem 0rem 1.563rem 0rem;
+  border: 2px solid rgba(57, 62, 65, 0.2);
+  z-index: 9;
+  padding: 14px;
+  outline: none !important;
+  //border: 1px solid #6E68EF;
+}
+
+.booking-choose-time__dv-outline-none {
+  outline: none !important;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  border: none;
+}
+
+.booking-choose-time__spacer {
+  flex: 1 1 auto;
+}
+.booking-choose-time__dv-card-disabled {
+  pointer-events: none;
+  color: #c1c1c1;
+}
+
+.booking-choose-time__dv-time {
+  color: black;
+  font-size: 1.125rem;
+}
+
+.booking-choose-time__dv-few-available {
+  color: rgb(247, 83, 83);
+}
+
+.booking-choose-time__dv-no-available {
+  color: #c1c1c1;
+}
+.booking-choose-time__dv-day {
+  color: rgba(0, 0, 0, 0.6);
+  text-transform: uppercase;
+  font-size: 1.5rem;
+}
+
+@include media-breakpoint-down(md) {
+  .container {
+    padding: 0rem;
+  }
+  .booking-choose-time__dv-outline-none {
+    padding: 0rem;
+  }
+}

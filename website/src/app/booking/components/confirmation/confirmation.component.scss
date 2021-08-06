@@ -1,0 +1,35 @@
+@import 'src/variables';
+
+.booking-confirmation__dv-confirmation-txt {
+  font-weight: 400;
+  font-size: 2rem;
+  line-height: 2.8rem;
+  margin-bottom: 4.9rem !important;
+}
+
+.booking-confirmation__dv-confirmation-thx {
+  margin-top: 4.9rem;
+  font-weight: 400;
+  font-size: 1.3rem;
+}
+
+.booking-confirmation__dv-myauto {
+  margin: auto;
+}
+
+.booking-confirmation__dv-go-home {
+  font-weight: 500;
+  font-size: 1.4rem;
+  cursor: pointer;
+  z-index: 99;
+}
+
+.booking-confirmation__image-tick {
+  width: 25%;
+}
+
+@include media-breakpoint-down(md) {
+  .booking-confirmation__image-tick {
+    width: 50%;
+  }
+}

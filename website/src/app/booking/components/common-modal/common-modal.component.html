@@ -1,0 +1,15 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-title">{{ title }}</h4>
+  <button type="button" class="close" aria-describedby="modal-title">
+    <span aria-hidden="true" (click)="dismiss()"><fa-icon icon="times"></fa-icon></span>
+  </button>
+</div>
+<div class="modal-body">
+  <p>
+    <strong>{{ message }}</strong>
+  </p>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="dismiss()">Annulla</button>
+  <button type="button" class="btn btn-warning" (click)="success()">{{ successTitle }}</button>
+</div>

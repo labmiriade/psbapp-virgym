@@ -1,0 +1,32 @@
+<form [formGroup]="form" (ngSubmit)="search($event)">
+  <div class="row">
+    <div class="col-12 px-3 d-flex flex-row align-items-center">
+      <input class="form-control flex-grow-1" formControlName="q" type="text" />
+      <div class="d-none d-md-block flex-shrink-0 flex-grow-0 d-md-none">
+        <ng-container *ngTemplateOutlet="buttoniera"></ng-container>
+      </div>
+    </div>
+    <div class="col-12 mt-2 flex-row justify-content-center search-bar__buttons-inline">
+      <ng-container *ngTemplateOutlet="buttoniera"></ng-container>
+    </div>
+  </div>
+</form>
+
+<ng-template #buttoniera>
+  <div class="search-bar__button-block">
+    <button type="submit" class="btn btn-primary search-bar__button" (click)="search($event)">
+      <span *ngIf="allPlace">Tutte le palestre</span>
+      <span *ngIf="!allPlace">Ricerca</span>
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary search-bar__button"
+      ngbTooltip="Non abbiamo i permessi per accedere alla tua posizione. Verifica le impostazioni del browser."
+      [disableTooltip]="!isGeoDisabled()"
+      (click)="search($event, true)"
+      [disabled]="isGeoDisabled()"
+    >
+      Geo ricerca
+    </button>
+  </div>
+</ng-template>

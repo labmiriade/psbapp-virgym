@@ -1,0 +1,66 @@
+<div class="text-center" *ngIf="loading">
+  <div class="spinner-border mt-5 text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+<div class="mt-3 container text-center">
+  <span class="booking-checkout__dv-day">Riepilogo prenotazione</span>
+</div>
+<div class="container booking-checkout__dv-panel mt-3 mb-5" *ngIf="slot">
+  <div class="card">
+    <div class="row">
+      <label class="col-5 m-auto">Giorno</label>
+      <span class="booking-checkout__dv-fake-input col-5 m-auto">{{ slot.startDatetime | date: 'dd MMMM' }}</span>
+    </div>
+    <div class="row">
+      <label class="col-5 m-auto">Orario</label>
+      <span class="booking-checkout__dv-fake-input col-5 m-auto">{{ slot.startDatetime | date: 'hh:mm' }}</span>
+    </div>
+    <div class="row">
+      <label class="col-5 m-auto">Durata</label>
+      <span class="booking-checkout__dv-fake-input col-5 m-auto">{{ slot.duration }} minuti</span>
+    </div>
+  </div>
+
+  <div class="mt-5">
+    <h3 class="booking-checkout__dv-how-to-txt">Come vuoi ricevere il tuo biglietto?</h3>
+  </div>
+  <form [formGroup]="bookingForm" (ngSubmit)="bookSlot()">
+    <fieldset [disabled]="loading">
+      <div class="w-100 row">
+        <label class="col-3">Email*</label>
+        <div class="col-9">
+          <input
+            class="form-control"
+            name="email"
+            type="email"
+            formControlName="email"
+            [class.is-invalid]="bookingForm.dirty && !bookingForm.controls.email.valid"
+            required
+          />
+          <div class="invalid-feedback">Indirizzo email non valido.</div>
+        </div>
+      </div>
+      <div class="w-100 row mt-2" *ngIf="place && place.allowBookingByPhone">
+        <label class="col-3">Telefono</label>
+        <div class="col-9">
+          <input class="form-control" name="phone" type="tel" formControlName="phone" />
+        </div>
+      </div>
+      <div class="mt-3">
+        This site is protected by reCAPTCHA and the Google
+        <a href="https://policies.google.com/privacy">Privacy Policy</a> and
+        <a href="https://policies.google.com/terms">Terms of Service</a> apply.
+      </div>
+      <div class="w-100 mt-5 mb-4">
+        <button
+          type="submit"
+          [disabled]="!bookingForm.valid"
+          class="booking-checkout__dv-next-btn mt-5 pr-5 pl-5 pt-2 pb-2 w-100 m-auto btn-primary"
+        >
+          PRENOTA
+        </button>
+      </div>
+    </fieldset>
+  </form>
+</div>

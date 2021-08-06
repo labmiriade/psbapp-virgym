@@ -1,0 +1,38 @@
+.booking-checkout__dv-next-btn {
+  border-radius: 1.25rem;
+  text-transform: uppercase;
+  max-width: 37.5rem;
+  width: 100%;
+  margin: auto;
+  display: block;
+  text-align: center;
+  padding-top: 0.313rem;
+  padding-bottom: 0.313rem;
+  font-weight: 500;
+  font-size: 1.25rem;
+}
+.booking-checkout__dv-next-btn:disabled {
+  opacity: 0.6;
+}
+
+.booking-checkout__dv-how-to-txt {
+  font-weight: 400;
+}
+
+.booking-checkout__dv-panel {
+  z-index: 9;
+  padding-left: 0.938rem;
+  padding-right: 0.938rem;
+}
+
+.booking-checkout__dv-fake-input {
+  color: rgba(0, 0, 0, 0.7) !important;
+  cursor: default;
+  text-transform: capitalize;
+}
+
+.booking-checkout__dv-day {
+  color: rgba(0, 0, 0, 0.6);
+  text-transform: uppercase;
+  font-size: 1.5rem;
+}
