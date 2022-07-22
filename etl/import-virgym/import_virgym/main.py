@@ -2,15 +2,21 @@ from smart_open import open
 import os
 import boto3
 import csv
+import json
+import itertools
 
 from typing import List
 import traceback
 
-CSV_DATA_URL = "https://dati.veneto.it/SpodCkanApi/api/1/rest/dataset/progetto_avatar_palestre_digitali.csv"
+CSV_DATA_URLS = json.loads(os.environ.get("CSV_DATA_URLS"))
 
 dynamodb = boto3.resource("dynamodb")
 table_name = os.environ.get("DATA_TABLE")
 table = dynamodb.Table(table_name)
+
+
+def lower_first(iterator):
+    return itertools.chain([next(iterator).lower()], iterator)
 
 
 def lambda_handler(event, context):
@@ -18,43 +24,44 @@ def lambda_handler(event, context):
     ids_from_csv = set()
 
     with table.batch_writer() as batch:
-        with open(CSV_DATA_URL) as csvfile:
-            reader = csv.DictReader(csvfile, delimiter=";")
-            for row in reader:
-                place_id = row["ID_NUMBER"]
-                try:
-                    batch.put_item(
-                        Item={
-                            "pk": "p-" + place_id,
-                            "sk": "p-info",
-                            "data": {
-                                "openingTimeDesc": get_or_error(row, "ORARIO"),
-                                "website": get_or_error(row, "SITO_WWW"),
-                                "placeId": place_id,
-                                "city": get_or_error(row, "COMUNE"),
-                                "streetNumber": get_or_error(row, "SEDE_CIVIC"),
-                                "cpu": "8 core",
-                                "lon": get_or_error(row, "Longitudine"),
-                                "building": get_or_error(row, "SEDE_PRESS"),
-                                "province": get_or_error(row, "SEDE_PROV"),
-                                "phone": get_or_error(row, "TELEFONO"),
-                                "street": get_or_error(row, "SEDE_VIA"),
-                                "name": get_or_error(row, "NOME"),
-                                "category": get_or_error(row, "CATEGORIA"),
-                                "representative": get_or_error(row, "REFERENTE"),
-                                "lat": get_or_error(row, "Latitudine"),
-                                "istatCode": get_or_error(row, "COD_ISTAT"),
-                                "searchable": True,
-                                "bookable": True,
-                            },
-                            "gsi1pk": "place",
-                        }
-                    )
-                    ids_from_csv.add(place_id)
-                except Exception as error:
-                    failed_records.append(place_id)
-                    print(f"error processing {row=} {error=} {place_id=}")
-                    traceback.print_exc()
+        for CSV_DATA_URL in CSV_DATA_URLS:
+            with open(CSV_DATA_URL) as csvfile:
+                reader = csv.DictReader(lower_first(csvfile), delimiter=";")
+                for row in reader:
+                    place_id = row["id_number"]
+                    try:
+                        batch.put_item(
+                            Item={
+                                "pk": "p-" + place_id,
+                                "sk": "p-info",
+                                "data": {
+                                    "openingTimeDesc": get_or_error(row, "ORARIO"),
+                                    "website": get_or_error(row, "SITO_WWW"),
+                                    "placeId": place_id,
+                                    "city": get_or_error(row, "COMUNE"),
+                                    "streetNumber": get_or_error(row, "SEDE_CIVIC"),
+                                    "cpu": "8 core",
+                                    "lon": get_or_error(row, "Longitudine"),
+                                    "building": get_or_error(row, "SEDE_PRESS"),
+                                    "province": get_or_error(row, "SEDE_PROV"),
+                                    "phone": get_or_error(row, "TELEFONO"),
+                                    "street": get_or_error(row, "SEDE_VIA"),
+                                    "name": get_or_error(row, "NOME"),
+                                    "category": get_or_error(row, "CATEGORIA"),
+                                    "representative": get_or_error(row, "REFERENTE"),
+                                    "lat": get_or_error(row, "Latitudine"),
+                                    "istatCode": get_or_error(row, "COD_ISTAT"),
+                                    "searchable": True,
+                                    "bookable": True,
+                                },
+                                "gsi1pk": "place",
+                            }
+                        )
+                        ids_from_csv.add(place_id)
+                    except Exception as error:
+                        failed_records.append(place_id)
+                        print(f"error processing {row=} {error=} {place_id=}")
+                        traceback.print_exc()
 
     if failed_records:
         raise Exception
@@ -68,6 +75,7 @@ def lambda_handler(event, context):
 
 
 def get_or_error(item, key):
+    key = key.lower()
     try:
         return item[key]
     except KeyError:

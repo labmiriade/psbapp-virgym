@@ -6,7 +6,7 @@
   "repository": "https://bitbucket.org/miriadesrl/psbapp-virgym",
   "author": "Miriade",
   "dependencies": {
-    "@elastic/elasticsearch": "^7.12.0",
+    "@elastic/elasticsearch": "7.13.0",
     "aws-elasticsearch-js": "^1.0.3",
     "source-map-support": "^0.5.19"
   },

@@ -9,11 +9,11 @@
       <div class="col-12 col-md-4 overflow-auto d-inline-block search__list-scroll">
         <ng-container *ngIf="(places$ | async)?.length; else noResultsFound">
           <div *ngFor="let place of places$ | async">
-            <app-gym-search-card
+            <app-search-card
               (placeClick)="onSelectClick($event)"
               [place]="place"
-              class="search__gym-card"
-            ></app-gym-search-card>
+              class="search__card"
+            ></app-search-card>
           </div>
         </ng-container>
       </div>

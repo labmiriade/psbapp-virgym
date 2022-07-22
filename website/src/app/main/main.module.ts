@@ -9,7 +9,7 @@ import { IndexComponent } from './routes/index/index.component';
 import { SearchComponent } from './routes/search/search.component';
 import { DetailsComponent } from './routes/details/details.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
-import { GymSearchCardComponent } from './components/gym-search-card/gym-search-card.component';
+import { SearchCardComponent } from './components/search-card/search-card.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { InfoComponent } from './routes/info/info.component';
@@ -21,7 +21,7 @@ import { MainComponent } from './main.component';
     SearchComponent,
     DetailsComponent,
     SearchBarComponent,
-    GymSearchCardComponent,
+    SearchCardComponent,
     LoadingComponent,
     InfoComponent,
     MainComponent,

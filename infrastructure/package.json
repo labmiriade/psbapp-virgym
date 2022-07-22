@@ -6,7 +6,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/labmiriade/psbapp-virgym.git"
+    "url": "https://bitbucket.org/miriadesrl/psbapp-virgym/"
   },
   "license": "UNLICENSED",
   "scripts": {
@@ -21,10 +21,10 @@
     "openapi": "ts-node bin/openapi-parser.ts"
   },
   "devDependencies": {
-    "@aws-cdk/assert": "1.113.0",
+    "@aws-cdk/assert": "1.152.0",
     "@types/jest": "^26.0.10",
-    "@types/node": "^10.17.60",
-    "aws-cdk": "1.113.0",
+    "@types/node": "10.17.60",
+    "aws-cdk": "^2.0.0",
     "jest": "^26.4.2",
     "prettier": "^2.3.0",
     "ts-jest": "^26.2.0",
@@ -32,21 +32,25 @@
     "typescript": "~3.9.7"
   },
   "dependencies": {
-    "@aws-cdk/aws-apigateway": "1.113.0",
-    "@aws-cdk/aws-cloudfront": "1.113.0",
-    "@aws-cdk/aws-cognito": "1.113.0",
-    "@aws-cdk/aws-dynamodb": "1.113.0",
-    "@aws-cdk/aws-elasticsearch": "1.113.0",
-    "@aws-cdk/aws-events-targets": "1.113.0",
-    "@aws-cdk/aws-iam": "1.113.0",
-    "@aws-cdk/aws-lambda": "1.113.0",
-    "@aws-cdk/aws-lambda-event-sources": "1.113.0",
-    "@aws-cdk/aws-logs": "1.113.0",
-    "@aws-cdk/aws-route53": "1.113.0",
-    "@aws-cdk/aws-route53-targets": "1.113.0",
-    "@aws-cdk/aws-s3": "1.113.0",
-    "@aws-cdk/aws-s3-deployment": "1.113.0",
-    "@aws-cdk/core": "1.113.0",
+    "@aws-cdk/aws-apigateway": "1.152.0",
+    "@aws-cdk/aws-cloudfront": "1.152.0",
+    "@aws-cdk/aws-cloudwatch-actions": "1.152.0",
+    "@aws-cdk/aws-cognito": "1.152.0",
+    "@aws-cdk/aws-dynamodb": "1.152.0",
+    "@aws-cdk/aws-elasticsearch": "1.152.0",
+    "@aws-cdk/aws-events-targets": "1.152.0",
+    "@aws-cdk/aws-iam": "1.152.0",
+    "@aws-cdk/aws-lambda": "1.152.0",
+    "@aws-cdk/aws-lambda-event-sources": "1.152.0",
+    "@aws-cdk/aws-logs": "1.152.0",
+    "@aws-cdk/aws-pinpoint": "1.152.0",
+    "@aws-cdk/aws-route53": "1.152.0",
+    "@aws-cdk/aws-route53-targets": "1.152.0",
+    "@aws-cdk/aws-s3": "1.152.0",
+    "@aws-cdk/aws-s3-deployment": "1.152.0",
+    "@aws-cdk/core": "1.152.0",
+    "aws-cdk-lib": "^2.0.0",
+    "constructs": "^10.0.0",
     "source-map-support": "^0.5.16",
     "swagger-parser": "^10.0.2"
   }
