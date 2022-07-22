@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { ToastService, ToastType } from 'src/app/core/services/toast.service';
 
 @Component({
   selector: 'app-search-bar',
@@ -18,31 +19,18 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./search-bar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchBarComponent implements OnChanges, OnInit, OnDestroy {
+export class SearchBarComponent implements OnChanges, OnDestroy {
   @Input() q = '';
   @Output() searchClick = new EventEmitter<{ q: string; geo: boolean }>();
 
-  allPlace: boolean = true;
   form: FormGroup;
   private sub: Subscription;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private toast: ToastService) {
     this.sub = new Subscription();
     this.form = this.fb.group({
       q: this.q ?? '',
     });
-  }
-
-  ngOnInit(): void {
-    this.sub.add(
-      this.form.valueChanges.subscribe((dati) => {
-        if (dati.q !== '') {
-          this.allPlace = false;
-        } else {
-          this.allPlace = true;
-        }
-      }),
-    );
   }
 
   ngOnDestroy(): void {
@@ -57,9 +45,16 @@ export class SearchBarComponent implements OnChanges, OnInit, OnDestroy {
 
   search(e: Event, geo = false): void {
     e.preventDefault();
-    const q: string = (this.form.value.q || '').trim();
-
-    this.searchClick.emit({ q, geo });
+    if (this.form.value.q.length < 3) {
+      this.toast.show(
+        'Ricerca non valida',
+        'Inserire una parola di almeno 3 caratteri e premere il pulsante Ricerca o GeoRicerca',
+        ToastType.Danger,
+      );
+    } else {
+      const q: string = this.form.value.q.trim();
+      this.searchClick.emit({ q, geo });
+    }
   }
 
   isGeoDisabled(): boolean {

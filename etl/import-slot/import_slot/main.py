@@ -9,10 +9,13 @@ dynamodb = boto3.resource("dynamodb")
 table_name = os.environ.get("DATA_TABLE")
 table = dynamodb.Table(table_name)
 
+
 def lambda_handler(event, context):
     try:
         s3_object = event.get("Records")[0]["s3"]
-        s3_file_url = "s3://" + s3_object["bucket"]["name"] + "/" + s3_object["object"]["key"]
+        s3_file_url = (
+            "s3://" + s3_object["bucket"]["name"] + "/" + s3_object["object"]["key"]
+        )
         with open(s3_file_url, newline="") as csvfile:
             rows = csv.DictReader(csvfile)
 
@@ -25,10 +28,7 @@ def lambda_handler(event, context):
                     batch.put_item(
                         Item={
                             "pk": "p-" + row["ID Palestra"],
-                            "sk": "s-"
-                            + startDatetime
-                            + "~"
-                            + row["Durata in minuti"],
+                            "sk": "s-" + startDatetime + "~" + row["Durata in minuti"],
                             "allowedPeople": int(row["Posti disponibili"]),
                             "startDatetime": startDatetime,
                             "duration": int(row["Durata in minuti"]),

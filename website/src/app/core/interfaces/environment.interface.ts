@@ -11,4 +11,12 @@ export interface Environment {
   awsMapName: string;
   /** Site key usato per generare captcha con `production = true`, altrimenti captcha inviato a backend */
   siteKeyCaptcha: string;
+  /** AWS: abilita il servizio Pinpoint */
+  awsPinpoint?: EnvironmentPinpointProps;
+}
+
+interface EnvironmentPinpointProps {
+  region: string;
+  identityPoolId: string;
+  appId: string;
 }

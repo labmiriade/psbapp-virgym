@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
-import * as cdk from '@aws-cdk/core';
+import * as cdk from 'aws-cdk-lib';
 import { InfrastructureStack, InfrastructureStackProps } from '../lib/infrastructure-stack';
+
+const DATA_URLS = ['https://dati.veneto.it/SpodCkanApi/api/1/rest/dataset/progetto_avatar_palestre_digitali.csv'];
 
 const env: cdk.Environment = {
   account: '<ACCOUNT_ID>',
@@ -14,7 +16,7 @@ cdk.Tags.of(app).add('project', 'PSBAPP');
 /////// STACK DI SVILUPPO
 
 // default props for all dev env: customizable afterwards
-function makeDefaultDevProps(ownerName: string): InfrastructureStackProps {
+function makeDefaultDevProps(ownerName: string, ownerEmail: string): InfrastructureStackProps {
   return {
     env,
     endUserWebApp: {
@@ -26,12 +28,10 @@ function makeDefaultDevProps(ownerName: string): InfrastructureStackProps {
       apiBaseUrl: `/api`,
     },
     bookingSourceEmail: 'virgym-dev@example.org',
-    captcha: {
-      'secret': '<reCAPTCHA SECRET>',
-      'key': '<reCAPTCHA KEY>',
-    },
+    captcha: undefined,
     description: `Development Stack for PsbApp - VirGym owned by ${ownerName}`,
     destroyOnRemoval: true,
+    csvDataUrls: JSON.stringify(DATA_URLS),
     locationMapArn: '<LOCATION_MAP_ARN>',
     searchProps: {
       indexPrefix: ownerName,
@@ -43,6 +43,7 @@ function makeDefaultDevProps(ownerName: string): InfrastructureStackProps {
     reportProps: {
       senderEmail: 'psbapp@example.org',
     },
+    alarmEmail: ownerEmail,
   };
 }
 
@@ -59,5 +60,6 @@ for (const ownerEmail of Object.keys(devProps)) {
   const stack = new InfrastructureStack(app, stackName, props);
   cdk.Tags.of(stack).add('referente', ownerEmail);
   cdk.Tags.of(stack).add('owner', ownerEmail);
+  cdk.Tags.of(stack).add('project', 'PSBAPP');
   cdk.Tags.of(stack).add('environment', 'dev');
 }

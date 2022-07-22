@@ -72,17 +72,6 @@ definitions:
           - poetry run black --check .
           - poetry run flake8
           - poetry run pytest
-    
-    - step: &infrastructureBuild
-        name: Build the infrastructure project
-        image: node:14-alpine
-        # avoid using cache to prevent problems with CDK updates
-        script:
-          - cd infrastructure
-          - npm install
-          - npm run test
-          - npm run lint
-          - npm run build
 
     - step: &websiteBuildTest
         name: Build the website for the TEST environment
@@ -133,14 +122,6 @@ definitions:
               changesets:
                 includePaths:
                   - etl/import-virgym/**
-        
-        - step:
-            <<: *infrastructureBuild
-            condition:
-              changesets:
-                includePaths:
-                  - infrastructure/**
-
 
     - step: &deployTest
         name: CDK Deploy

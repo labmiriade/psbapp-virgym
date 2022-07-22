@@ -2,11 +2,11 @@ import { Input, Component, Output, EventEmitter } from '@angular/core';
 import { PlaceInfo } from 'src/app/core/interfaces/api.interface';
 
 @Component({
-  selector: 'app-gym-search-card',
-  templateUrl: './gym-search-card.component.html',
-  styleUrls: ['./gym-search-card.component.scss'],
+  selector: 'app-search-card',
+  templateUrl: './search-card.component.html',
+  styleUrls: ['./search-card.component.scss'],
 })
-export class GymSearchCardComponent {
+export class SearchCardComponent {
   @Input() place?: PlaceInfo;
   @Output() placeClick = new EventEmitter<PlaceInfo>();
 

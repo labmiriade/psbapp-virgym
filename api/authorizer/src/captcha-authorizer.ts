@@ -5,7 +5,7 @@ import { inspect } from 'util';
 /**
  * The secret for captcha validation (from google captcha console)
  */
-const testCaptcha = 'test-captcha';
+const testCaptcha = '<RECAPTCHA_TOKEN>';
 const devPassword = 'un-cartellino-per-arianna';
 const captchaSecret = process.env['captchaSecret'] || testCaptcha;
 /**
@@ -19,7 +19,7 @@ export async function handler(
   context: lambda.APIGatewayAuthorizerResultContext,
 ): Promise<lambda.APIGatewayAuthorizerResult> {
   // if captcha secret is not set, accept the secret phrase for test environments
-  if (captchaSecret === testCaptcha) {
+  if (captchaSecret == testCaptcha) {
     let [token, sourceIp] = getDataFromEvent(event);
     let isAuthorized = token === devPassword;
     return {
