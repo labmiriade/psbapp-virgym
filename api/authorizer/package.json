@@ -26,7 +26,7 @@
   "license": "ISC",
   "homepage": "https://bitbucket.org/miriadesrl/darvad-api-backend#readme",
   "dependencies": {
-    "axios": "^0.21.1"
+    "axios": "^0.21.2"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.51",
